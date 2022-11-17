@@ -1,9 +1,8 @@
-% Program for Numerical Methods
-% Exercise 3 - Problem 1
-% Parabolic PDE's in 1D with explicit Euler, Methode of Lines 
+% Program to solve Parabolic PDE's in 1D with explicit Euler, Method of Lines 
 % and comparison to Matlab's build in functions
 %
 % Philipp Oelze, as of 03st Nov. 2022
+
 clearvars
 %% Parameters
 L = 1;      Tmax = 2;
@@ -111,8 +110,9 @@ c1 = a/hx^2;
 u0 = zeros(N,1);
 u(:,1) = u0;
 
+% matrix for spatial discretisation of order 2
 A=gallery('tridiag',N,1,-2,1);
-A(N,N-1) = 2;
+A(N,N-1) = 2;       % boundary condtion 
 
 A = c1*A;
 
@@ -135,9 +135,11 @@ function fun=rhs_heat(u,A,t,N,c1)
 end
 
 function plot1(sol,x,t,Nt)
+% functions to plot all important grafics containing a 3D plot,
+% one plot u of x at t=1 and one u of t at x=min & x=max
+
     % 3D Plot 
     [X T] = meshgrid(x,t);
-
     figure
     mesh(X,T,sol);
     xlabel('x \rightarrow')
@@ -147,7 +149,6 @@ function plot1(sol,x,t,Nt)
     % 2D Plot at t=1
     t1 = Nt/2;
     u_t1 = sol(t1,:);
-
     figure
     plot(x,u_t1,'r*')
     xlabel('x \rightarrow')
